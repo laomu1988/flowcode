@@ -1,19 +1,12 @@
-/***
-需合并文件： flowcode.js note.js Common.js Line.js Block.js flow.js flow.view.js flow.history.js flow.error.js
-
-文件分为：
-注释
-Common部分：Line和Block共有部分
-Line
-Block
-flow
-event
-history
-error
-
-
-事件： init drag drop addblock delete textchange change
-
+#flowcode模块划分
+ * 注释
+ * Common部分：Line和Block共有部分
+ * Line
+ * Block
+ * flow
+ * event:init drag drop addblock delete textchange change error
+ * history
+ * error
 
 #需要修改或添加
   * ok添加输入输出模块
@@ -30,12 +23,13 @@ error
   * 添加事件
   * 精简外部可访问属性和方法
   * CSS Sprite输出图，特别是横线和竖线两个辅助图片
-
   * 输出代码并执行
 
-  * 拖动到区域外
-  * 当前代码
+#6.03
+  * 修复拖动到区域外时位置错误
+  * 当前代码加五角星标示
   * 设置当前连线
+
 #6.02
   * 拖动修改元素
   * 修改文字内容（撤销与重做）
