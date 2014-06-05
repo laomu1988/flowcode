@@ -3,11 +3,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width" />
 <title>流程图在线编程</title>
-<link type="text/css" rel="stylesheet" href="../css/main.css" />
-<link type="text/css" rel="stylesheet" href="../css/flowcode.css" />
-<script type="text/javascript" src="../js/jquery-1.7.2.js"></script>
-<script type="text/javascript" src="../js/jquery-ui-1.10.4.custom.min.js"></script>
-<script type="text/javascript" src="flowcode.js"></script>
+<link type="text/css" rel="stylesheet" href="css/flowcode.css" />
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
+<script type="text/javascript" src="js/flowcode.js"></script>
 <body>
 <div id="EditorArea" class="container">
 <div id="ToolsBar" class="w2" style="background-color:#AAA;z-index:-100;">
@@ -34,20 +33,13 @@
 <script>
 $(document).ready(function() {
     var flow = window.flow;
-    //console.log("flowcode_r_run");
-    //console.log(jquery);
-    //console.log($);
-    //console.log(flow);
     var data = 
-    //{start0:[{type:"start"},{type:"select",right:[{type:"select",down:[{type:"exec"},{type:"exec"},{type:"exec"},{type:"exec"}]},{type:"exec"}],down:[{type:"select"},{type:"exec"},{type:"exec"},{type:"exec"},{type:"exec"},{type:"exec"}]},{type:"loop",down:[{type:"exec"}]},{type:"end"}]}
     [
         [{"type":"start","x":50,"y":0},{"type":"exec","text":"sum=0,i=1"},{"type":"loop","text":"i<=100","down":[{"type":"exec","text":"sum+=i"}]},{"type":"output","text":"sum"},{"type":"end"}],
         [{"type":"start","x":300,"y":0},{"type":"exec","text":"sum=0,i=1"},{"type":"loop","text":"i<=100","down":[{"type":"exec","text":"sum+=i"}]},{"type":"output","text":"sum"},{"type":"end"}]
     ]
     ;
-    flow.init("view");
-    //alert("程序调试"); 
-    flow.initData(data);
+    flow.init("view",data);
 
     $("#tool_redo").click(function(){
         flow.history.redo();

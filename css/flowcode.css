@@ -1,0 +1,269 @@
+body,
+div,
+p {
+  margin: 0;
+  padding: 0;
+}
+div {
+  vertical-align: top;
+}
+.container,
+.context {
+  width: 960px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  _margin-bottom: 0px;
+}
+body {
+  background-color: #282828;
+  color: white;
+}
+/*当宽度为960时的栅格系统*/
+.w1,
+.w2,
+.w3,
+.w4,
+.w5,
+.w6,
+.w7,
+.w8,
+.w9,
+.w10,
+.w11,
+.w12 {
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+}
+.w1 {
+  width: 80px;
+}
+.w2 {
+  width: 160px;
+}
+.w3 {
+  width: 240px;
+}
+.w4 {
+  width: 320px;
+}
+.w5 {
+  width: 400px;
+}
+.w6 {
+  width: 480px;
+}
+.w7 {
+  width: 560px;
+}
+.w8 {
+  width: 640px;
+}
+.w9 {
+  width: 720px;
+}
+.w10 {
+  width: 800px;
+}
+.w11 {
+  width: 880px;
+}
+.w12 {
+  width: 960px;
+}
+/*
+CSS Sprit实践
+精简图形数目
+背景图片位置为负值
+
+图层设计z-index，从高到低:
+	正在移动的对象ui-draggable-dragging：999
+	选中的对象choosed：200
+	正在某连线上浮动（拖动目标时）：150
+	平常方块block：100
+	平常连线line：50
+	辅助连线assist：10
+	
+*/
+.block {
+  background-color: #009EE8;
+  border: 1px solid #009EE8;
+  width: 98px;
+  height: 38px;
+  position: absolute;
+  text-align: center;
+  line-height: 40px;
+  text-shadow: none;
+  /*	border: 1px solid #009EE8;*/
+  border-radius: 4px;
+  z-index: 100;
+  cursor: move;
+  /*background-image:url(sprite/block-bg.png);
+*/
+}
+.block input {
+  margin-top: 10px;
+  background-color: rgba(255, 255, 255, 0);
+  border: 0;
+  text-align: center;
+}
+.block input:focus {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+.line {
+  background-color: #BBBBBB;
+  width: 100px;
+  height: 40px;
+  position: absolute;
+  text-align: left;
+  z-index: 50;
+}
+.choosed {
+  border: 1px solid #00F;
+  z-index: 200;
+  background-color: rgba(0, 255, 41, 0.9);
+}
+.ui-draggable-dragging {
+  z-index: 999;
+  opacity: 0.5;
+}
+.ori {
+  position: relative;
+  margin: 20px;
+}
+/*********************************
+根据模块宽度，线条高度，Loop循环左右侧宽度来修改CSS
+**/
+.selected {
+  background-image: url(slice/block-bg.png);
+  background-repeat: no-repeat;
+  background-position: -12px -75px;
+  background-size: 50px 100px;
+}
+.down {
+  background-image: url(slice/block-bg.png);
+  background-position: -50px -120px;
+}
+.select,
+.loop {
+  background-image: url(slice/block-bg.png);
+  background-position: -50px -80px;
+}
+.input,
+.output {
+  background-image: url(slice/block-bg.png);
+  background-position: -55px -276px;
+  font-size: 12px;
+  color: #000;
+}
+.input span,
+.output span {
+  padding-left: 10px;
+}
+/*矩形的四个角落**/
+.rect-rightup,
+.select-right,
+.loop-assist-line7,
+.loop-assist-line9 {
+  background-image: url(slice/block-bg.png);
+  background-position: -100px 0px;
+}
+.rect-rightdown,
+.select-rightdown,
+.loop-assist-line8 {
+  background-image: url(slice/block-bg.png);
+  background-position: -100px -40px;
+}
+.rect-leftup,
+.loop-assist-line5 {
+  background-image: url(slice/block-bg.png);
+  background-position: 0px 0px;
+}
+.rect-leftdown,
+.loop-assist-line6,
+.loop-down {
+  background-image: url(slice/block-bg.png);
+  background-position: 0px -40px;
+}
+.select-down,
+.loop-up {
+  background-image: url(slice/block-bg.png);
+  background-position: -50px -200px;
+}
+/*辅助线**/
+/*垂直线**/
+.select-assist-line1,
+.select-assist-line2,
+.loop-assist-line1,
+.loop-assist-line2 {
+  background-image: url(slice/assist-vline.png);
+  background-repeat: repeat-y;
+  z-index: 10;
+}
+/*水平**/
+.select-assist-line3,
+.select-assist-line4,
+.loop-assist-line3,
+.loop-assist-line4,
+.loop-assist-line10,
+.loop-assist-line11 {
+  background-image: url(slice/assist-hline.png);
+  background-repeat: repeat-x;
+  z-index: 10;
+}
+.hovered {
+  border: 1px solid #F00;
+  background-color: #999;
+  z-index: 150;
+}
+.down {
+  background-position: -50px -140px;
+}
+.select-down,
+.loop-up {
+  background-position: -50px -210px;
+}
+.select-right,
+.loop-assist-line9 {
+  background-position: -100px -10px;
+}
+.select-rightdown {
+  background-position: -100px -50px;
+}
+.select-assist-line3,
+.select-assist-line4,
+.loop-assist-line3,
+.loop-assist-line4,
+.loop-assist-line10,
+.loop-assist-line11 {
+  background-position: 0px -10px;
+}
+.loop-down {
+  background-position: 0px -50px;
+}
+/*宽度随着@loop-a-width更改而更改*/
+.loop-assist-line1,
+.loop-assist-line2,
+.loop-assist-line5,
+.loop-assist-line6,
+.loop-assist-line7,
+.loop-assist-line8 {
+  width: 40px;
+}
+.loop-assist-line1,
+.loop-assist-line2 {
+  background-position: -30px 0px;
+  width: 60px;
+}
+.loop-assist-line5 {
+  background-position: -30px -10px;
+}
+.loop-assist-line6 {
+  background-position: -30px -50px;
+}
+.loop-assist-line7 {
+  background-position: -130px -10px;
+}
+.loop-assist-line8 {
+  background-position: -130px -50px;
+}
