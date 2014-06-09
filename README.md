@@ -4,6 +4,8 @@
   * flow.init(viewid,data)
     * viewid:编辑区id
     * data:编辑数据
+  * flow.addBlock(data) 新建block（还没有添加到视图中）
+  * flow.insertBlockByPath(block,path) 根据路径增加视图中
 
 #获取数据
   * flow.getData() 取得结构存储数据
@@ -19,7 +21,19 @@
   * 侦听事件有：init addblock delete textchange change error
 
 #操作方法
-  * 删除选中元素
-  * 
+  * flow.deleteChoosed() 删除选中节点
 
-#
+
+#Block操作函数
+  * getCode()
+  * getData()
+  * getPath()
+  * getId()
+  * getNext()
+  * getPrev()
+  * getFirst()
+  * getLast()
+  * getBloneBlock()
+  * getParent()
+  * getText()
+ 
