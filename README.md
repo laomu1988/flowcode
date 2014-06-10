@@ -1,39 +1,24 @@
-#flowcode.js增加全局变量flow
+#flowcode项目
+  * 该项目目的是通过绘制程序流程图生成程序代码，并且能够在线执行、在线调试
 
-#初始化显示：
-  * flow.init(viewid,data)
-    * viewid:编辑区id
-    * data:编辑数据
-  * flow.addBlock(data) 新建block（还没有添加到视图中）
-  * flow.insertBlockByPath(block,path) 根据路径增加视图中
+#使用方法
+  * 示例页面flowcode.html
+  * 函数列表flow.md
 
-#获取数据
-  * flow.getData() 取得结构存储数据
-  * flow.getCode() 取得生成代码
-  * flow.getBlockById(blockid) 取得数据
-  * flow.getChoosed() 取得选中的节点对象
-  * flow.changeChoosed(blockid|block) 更改选中的节点对象
-  * flow.delete(block) 删除节点
-  * flow.deleteAll() 删除所有节点
-
-#事件侦听
-  * flow.bind(type,func);增加事件侦听处理函数
-  * 侦听事件有：init addblock delete textchange change error
-
-#操作方法
-  * flow.deleteChoosed() 删除选中节点
+#功能及进度(-正在进行中 !未开始)
+  * 绘制流程图
+  * 撤销和重做操作
+  * 输出流程图数据并保存
+  * -能够在线调试并查看变量
+  * -生成JavaScript，C，Basic等代码并保存数据
+  * !读取程序代码并生成流程图
 
 
-#Block操作函数
-  * getCode()
-  * getData()
-  * getPath()
-  * getId()
-  * getNext()
-  * getPrev()
-  * getFirst()
-  * getLast()
-  * getBloneBlock()
-  * getParent()
-  * getText()
+
+
+#难点
+  * 撤销和重做记录并实现
+  * !在线执行和调试
+  * !输入数据
+  * !模拟其他语言的效果 
  

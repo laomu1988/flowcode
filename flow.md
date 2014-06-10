@@ -64,3 +64,8 @@
 
 #错误处理
   * addError(msg, obj):添加错误
+  * extend(name,func):为flow添加函数
+    * * name:函数名称
+    * * func:函数
+  * extend2block(name,func):添加节点属性或操作函数，函数内this代表block
+    * * 注意：节点可能是block或者连线或辅助线assistLine

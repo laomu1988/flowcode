@@ -1761,4 +1761,27 @@
 
   window.flow = flow;
 
+  /**为flow添加函数
+   name:函数名称
+   func:函数
+  */
+  flow.extend = function(name,func){
+    if(!name || !func){
+      return false;
+    }
+    if(flow[name]){
+      return false;
+    }
+    flow[name] = func;
+  }
+
+  /**添加节点属性或操作函数，函数内this代表block
+    注意：节点可能是block或者连线或辅助线assistLine
+  */
+  flow.extend2block = function(name,func){
+    if(!name || !func){
+      return false;
+    }
+    Block.prototype[name] = func;
+  }
 })(window, jQuery);
