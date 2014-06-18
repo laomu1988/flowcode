@@ -6,12 +6,13 @@
 #Block和Line共同拥有的属性
   * getFirst():取得本次连线中的第一个节点
   * getLast():取得本次连线中最后一个节点
-  * getData():取得存储数据
-  * getCode(mode):取得本节点及之后节点生成的代码
+  * getData():取得本节点及内部节点的json格式数据
+  * getCode(mode):取得本节点及内部节点生成的代码
   * getInput():取得输入框
   * getText():取得文字内容
   * getAfterSize():获取此节点及其后的所有节点的高度和宽度，左侧凸出部分宽度
   * getBeloneBlock():当前节点在哪一个节点的分支上
+  * getBranchName():取得该节点所在分支名称：up,right,down,或者''
   * getPath():取得节点在存储格式中的位置
   * insertBefore(block):当前元素插入block元素前
   * insertAfter(block):当前元素插入block元素后
@@ -52,6 +53,7 @@
   * insertBlockByPath(block, path):根据路径添加节点
   * deleteChoosed():删除当前选中节点
   * changeChoosed(obj):更改当前选中的元素
+  * getStartBlock():取得程序开始节点
   * getCode():取得生成的代码
 
 #flow.history 操作历史
@@ -65,7 +67,20 @@
 #错误处理
   * addError(msg, obj):添加错误
   * extend(name,func):为flow添加函数
-    * * name:函数名称
-    * * func:函数
+    * name:函数名称
+    * func:函数
   * extend2block(name,func):添加节点属性或操作函数，函数内this代表block
-    * * 注意：节点可能是block或者连线或辅助线assistLine
+    * 注意：节点可能是block或者连线或辅助线assistLine
+
+#代码执行部分exec
+  * keys:代码中的关键字
+  * vars:获取到的变量列表object类型
+  * print(msg):执行程序中的print函数
+  * input(msg):执行程序中的输入函数
+
+#调试debug
+  * vars:调试时变量列表object
+  * nowblock:调试时当前的模块
+  * replaceVars(code):将代码中的变量，替换成调试时变量
+  * start():开始调试
+  * exec(code):执行代码

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width" />
+<title>流程图在线编程-不使用图片</title>
+<link type="text/css" rel="stylesheet" href="css/flowcode-css.css" />
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
+<script type="text/javascript" src="js/flow.js"></script>
+<body>
+<div id="EditorArea" class="container">
+<div id="ToolsBar" class="w2" style="background-color:#AAA;z-index:-100;">
+<div class="block ori" blockType="start">开始</div>
+<div class="block ori" blockType="input">输入</div>
+<div class="block ori" blockType="output">输出</div>
+<div class="block ori" blockType="exec">执行</div>
+<div class="block ori" blockType="select">选择</div>
+<div class="block ori" blockType="loop">循环</div>
+<div class="block ori" blockType="note">注释</div>
+</div>
+<div class="w9" style="height:600px;z-index:-100;overflow:auto;background:#666;">
+    <div class="toolbar" style="background:#444">
+        <input type="button" id="tool_undo" value="撤销">
+        <input type="button" id="tool_redo" value="重做">
+        <input type="button" id="tool_delete" value="删除选中">
+        <input type="button" id="tool_getCode" value="输出代码">
+    </div>
+    <div id="view" style="position:relative"></div>
+</div>
+<div class="w2">
+</div>
+</div>
+<script>
+$(document).ready(function() {
+    var flow = window.flow;
+    var data = 
+    [
+        [{"type":"start","x":50,"y":0},{"type":"exec","text":"sum=0,i=1"},{"type":"loop","text":"i<=100","down":[{"type":"exec","text":"sum+=i"}]},{"type":"output","text":"sum"},{"type":"end"}],
+        [{"type":"start","x":300,"y":0},{"type":"exec","text":"sum=0,i=1"},{"type":"loop","text":"i<=100","down":[{"type":"exec","text":"sum+=i"}]},{"type":"output","text":"sum"},{"type":"end"}]
+    ]
+    ;
+    flow.init("view",data);
+
+    $("#tool_redo").click(function(){
+        flow.history.redo();
+    });
+    $("#tool_undo").click(function(){
+        flow.history.undo();
+    });
+    $("#tool_delete").click(function(){
+        flow.view.deleteChoosed();
+    });
+    $("#tool_getCode").click(function(){
+        console.log(flow.getCode());
+    });
+});
+</script>
+</body>
+</html>

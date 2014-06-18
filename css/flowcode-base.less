@@ -1,0 +1,135 @@
+@width:960px;
+
+body,div,p{
+	margin:0;
+	padding:0;
+}
+div{
+	vertical-align:top;
+}
+.container,.context{
+	width:@width;
+	margin:0 auto;
+	margin-bottom:10px;
+	_margin-bottom:0px;
+}
+body{
+	background-color:rgb(40,40,40);
+	color:white;
+}
+
+/*当宽度为960时的栅格系统*/
+.w1,.w2,.w3,.w4,.w5,.w6,.w7,.w8,.w9,.w10,.w11,.w12{display:inline-block;zoom:1;*display:inline;}
+.w1{width:@width/12*1;}
+.w2{width:@width/12*2;}
+.w3{width:@width/12*3;}
+.w4{width:@width/12*4;}
+.w5{width:@width/12*5;}
+.w6{width:@width/12*6;}
+.w7{width:@width/12*7;}
+.w8{width:@width/12*8;}
+.w9{width:@width/12*9;}
+.w10{width:@width/12*10;}
+.w11{width:@width/12*11;}
+.w12{width:@width/12*12;}
+
+
+/*
+CSS Sprit实践
+精简图形数目
+背景图片位置为负值
+
+图层设计z-index，从高到低:
+	正在移动的对象ui-draggable-dragging：999
+	选中的对象choosed：200
+	正在某连线上浮动（拖动目标时）：150
+	平常方块block：100
+	平常连线line：50
+	辅助连线assist：10
+	
+*/
+.block{
+	background-color:#009EE8;
+	border: 1px solid #009EE8;
+	width: 98px;
+	height: 38px;
+	position: absolute;
+	text-align:center;
+	line-height:40px;	
+	text-shadow: none;
+/*	border: 1px solid #009EE8;*/
+	border-radius:4px;
+	z-index:100;
+	cursor: move;
+/*background-image:url(sprite/block-bg.png);
+*/
+  input{
+  	margin-top: 10px;
+  	background-color: rgba(255,255,255,0);
+  	border:0;
+  	text-align: center;
+  	&:focus{
+  		background-color: rgba(255,255,255,0.7);
+  	};
+  }
+}
+.line{
+	background-color: #BBBBBB;
+	width: 100px;
+	height: 40px;
+	position: absolute;
+	text-align:left;
+	z-index:50;
+}
+.choosed{
+	border:1px solid #00F;
+	z-index:200;
+	background-color: rgba(0,255,41,0.9);
+}
+
+.ui-draggable-dragging{
+	z-index:999;
+	opacity: 0.5;
+}
+
+.ori{
+	position: relative;
+	margin: 20px;
+}
+
+
+/*********************************
+根据模块宽度，线条高度，Loop循环左右侧宽度来修改CSS
+**/
+@blockwidth:100px;
+@line-height:20px;
+@loop-a-width:40px;
+
+//当前选中的连线
+.selected{
+	background-image: url(slice/block-bg.png);
+	background-repeat: no-repeat;
+	background-position: -12px -75px;
+	background-size: 50px 100px;
+}
+.down{
+	background-image:url(slice/block-bg.png);
+	background-position:-50px -120px;
+}
+.select,.loop{
+	background-image:url(slice/block-bg.png);
+	background-position:-50px -80px;
+}
+.input,.output{
+	font-size: 12px;
+  color: #00F;
+  span{
+  	padding-left: 10px;
+  }
+}
+.exec{
+	border-radius: 0;
+}
+.start,.end{
+	border-radius: 10px;
+}
