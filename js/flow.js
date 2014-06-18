@@ -2,6 +2,14 @@
 * @author:laomu1988
 * @email:laomu1988@qq.com
 */
+/*
+todoList
+  × 选择和循环显示是或否
+    * 是或者否互调
+    * 显示连线
+  * 分步调试
+  * 执行
+*/
 (function(window, $) {
   'use strict';
   var _blocks = {},
@@ -77,18 +85,6 @@
     allwidth: -1,
     allheight: -1,
     leftwidth: 0,
-    //初始化元素属性
-    init: function(attr) {
-      if (attr.parent) {
-        /*switch(this.type){
-                //case "select-right":
-                //!!    attr.pa
-        }*/
-      }
-      for (var i in attr) {
-        this[i] = attr[i];
-      }
-    },
     //左侧凸出部分宽度，循环结构使用
     /**取得本次连线中的第一个节点*/
     getFirst: function() {
@@ -104,7 +100,7 @@
       }
       return null;
     },
-    /**取得存储数据*/
+    /**取得本节点及内部节点的json格式数据*/
     getData: function() {
       var data = '';
       if (this.isBlock()) {
@@ -140,7 +136,7 @@
       }
       return data;
     },
-    /**取得本节点及之后节点生成的代码*/
+    /**取得本节点及内部节点生成的代码*/
     getCode: function(mode) {
       if (this.isLine()) {
         return '';
@@ -188,7 +184,15 @@
         inputval = inputval.replace(/或/g, '||');
         return "do{\n" + up + "if(" + inputval + "){break;}\n" + down + "\n}while(true);\n";
       case "input":
-        return "input(" + inputval + ");\n";
+        var inputdatas = inputval.split(",");
+        var code = '';
+        for(i = 0;i<inputdatas.length;i++){
+          if($.trim(inputdatas[i]) === ''){
+            continue;
+          }
+          code += inputdatas[i]+" = input();\n";
+        }
+        return code;
       case "output":
         return "print(" + inputval + ");\n";
       case "note":
@@ -283,6 +287,20 @@
         }
       }
       return null;
+    },
+    /**取得该节点所在分支名称：up,right,down,或者''*/
+    getBranchName:function(){
+      var p = this.getBeloneBlock();
+      if(p){
+        if(p.right === this.parent){
+          return "right";
+        }else if(p.up === this.parent){
+          return "up";
+        }else if(p.down === this.parent){
+          return "down";
+        }
+      }
+      return '';
     },
     /*取得该元素在数组中的位置*/
     getPlace: function() {
@@ -1141,9 +1159,9 @@
     return flow;
   };
   /**启动事件
-@param type:事件类型
-@param data:数据{a:0,b:1}
-*/
+  @param type:事件类型
+  @param data:数据{a:0,b:1}
+  */
   flow.fire = function(type, data) {
     flow.log("fire event: " + type);
     var arrayEvent = flow._listeners[type];
@@ -1313,7 +1331,7 @@
         if (type !== "start" && type !== "note") {
           return true;
         }
-        if (e.srcElement && e.srcElement.innerText !== e.target.innerText) {
+        if (e.toElement && e.toElement.innerText !== e.target.innerText) {
           //防止拖动超出范围
           return true;
         }
@@ -1461,34 +1479,10 @@
   flow.deleteChoosed = flow.view.deleteChoosed;
   flow.getBlockByPath = flow.view.getBlockByPath;
 
-  var _code = {};
-  _code.keys = "var,if,do,break,continue,for,while,print,true,false";
-  /*取得所有要定义的变量*/
-  _code.getVariable = function(code) {
-    var vars = code.match(/(\w+)/g);
-    var keys = _code.keys.split(",");
-    for (var i = vars.length - 1; i >= 0; i--) {
-      for (var j = keys.length - 1; j >= 0; j--) {
-        if (keys[j] === vars[i]) {
-          vars.splice(i, 1);
-        } else if ($.isNumeric(vars[i])) {
-          vars.splice(i, 1);
-        }
-      }
-    }
-    var addVar = {};
-    for (i = 0; i < vars.length; i++) {
-      addVar[vars[i]] = vars[i];
-    }
-    code = ' ' + code;
-    code = code.replace(/([^\w]+)(var\s+)/g, "$1"); //删除多余的var
-    var varDefine = 'var ';
-    for (i in addVar) {
-      varDefine += i + ","
-    }
-    varDefine += ";\n";
-    varDefine = varDefine.replace(",;", ";");
-    return varDefine;
+  /**取得程序开始节点*/
+  flow.getStartBlock = function(){
+    var startId = $(".selected").attr("blockid");
+    return flow.getBlockById(startId);
   }
   /**取得生成的代码*/
   flow.getCode = function() {
@@ -1501,12 +1495,11 @@
         code += p[i].getCode();
       }
     }
-    return _code.getVariable(code) + code;
+    if(flow.exec && flow.exec.getVariable){
+      return flow.exec.getVariable(code)+code;
+    }
+    return code;
   }
-
-
-
-
 
   /*操作记录*/
   var _action = {
@@ -1784,4 +1777,135 @@
     }
     Block.prototype[name] = func;
   }
+
+
+  /**#代码执行部分exec*/
+  var exec = {};
+  /**代码中的关键字*/
+  exec.keys = "var,if,do,break,continue,for,while,print,true,false";
+  /**获取到的变量列表object类型*/
+  exec.vars = {};
+  /*取得所有要定义的变量*/
+  exec.getVariable = function(code) {
+    var vars = code.match(/(\w+)/g);
+    var keys = exec.keys.split(",");
+    for (var i = vars.length - 1; i >= 0; i--) {
+      for (var j = keys.length - 1; j >= 0; j--) {
+        if (keys[j] === vars[i]) {
+          vars.splice(i, 1);
+        } else if ($.isNumeric(vars[i])) {
+          vars.splice(i, 1);
+        }
+      }
+    }
+    exec.vars = {};
+    for (i = 0; i < vars.length; i++) {
+      exec.vars[vars[i]] = 0.0;
+    }
+    code = ' ' + code;
+    code = code.replace(/([^\w]+)(var\s+)/g, "$1"); //删除多余的var
+    var varDefine = 'var ';
+    for (i in exec.vars) {
+      varDefine += i + " = 0.0,"
+    }
+    varDefine += ";\n";
+    varDefine = varDefine.replace(",;", ";");
+    return varDefine;
+  }
+  /**执行程序中的print函数*/
+  exec.print = function(msg){
+    flow.log(msg);
+  }
+  /**执行程序中的输入函数*/
+  exec.input = function(msg){
+    return 1;
+  }
+  flow.exec = exec;
+
+
+  /**#调试debug*/
+  var debug = {};
+  /**调试时变量列表object*/
+  debug.vars = {};
+  /**调试时当前的模块*/
+  debug.nowblock = null;
+  /**将代码中的变量，替换成调试时变量*/
+  debug.replaceVars = function(code){
+    code = " "+code;
+    for(var i in debug.vars){
+      var reg = new RegExp("[^\\w\\.]("+i+")[^\\w\\.]");
+      code = code.replace(reg,function(a,b){
+        return a.replace(b,"flow.debug.vars."+b);
+      });
+    }
+    return code;
+  }
+  /**开始调试*/
+  debug.start = function(){
+    debug.vars = null;
+    var code = flow.getCode();
+    debug.vars = exec.vars;
+    debug.nowblock = flow.getStartBlock();
+    flow.view.changeChoosed(debug.nowblock);
+    return debug.nowblock;
+  }
+  debug.next = function(){
+    var block = debug.nowblock;
+    var next = null;
+    var code = "";
+    switch(block.type){
+      case "exec":
+        var code = block.getCode();
+        code = debug.replaceVars(code);
+        debug.exec(code);
+        next = block.getNext();
+        break;
+      case "select":
+      case "loop":
+        code = block.getText();
+        code = debug.replaceVars(code);
+        if(debug.exec(code)){
+          next = block.down[0];
+        }else if(block.right){
+          next = block.right[0];
+        }else{
+          next = block.getNext();
+        }
+        break;
+      case "start":
+      default:
+        next = block.getNext();
+    }
+    if(next && next.type === "loop"){
+      if(next.up.length > 0){
+        next = next.up[0];
+      }
+    }
+    while(!next){
+      var p = block.getBeloneBlock();
+      if(p){
+        var branch = block.getBranchName();
+        if(branch === "up"){
+          next = p;
+        }else if(branch === "down" && p.type === "loop"){
+          next = p.up[0];
+        }else{
+          next = p.getNext();
+        }
+      }else{
+        break;
+      }
+    }
+    debug.nowblock = next;
+    flow.view.changeChoosed(debug.nowblock);
+    return debug.nowblock;
+  }
+  /**执行代码*/
+  debug.exec = function(code){
+    flow.log("exec:"+code);
+    return eval(code);
+  }
+
+
+  flow.debug = debug;
 })(window, jQuery);
