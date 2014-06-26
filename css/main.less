@@ -133,6 +133,21 @@ div[class^=area]{
 	.border;
 	overflow: hidden;
 	.box-sizing;
+	.bottom-left{
+		width: @left-width;
+		position: absolute;
+	}
+	.messages{
+		margin-left: @left-width;
+		table.message{
+			width: 100%;
+			border-spacing: 0;
+			border-bottom: 1px solid @border-color;
+			td{
+				border-bottom: 1px solid @border-color;
+			}
+		}
+	}
 }
 
 /***/
@@ -153,7 +168,8 @@ div[class^=area]{
 			background-color: @hover-color;
 		};
 	}
-	.warning{
-		background-color: rgba(255,0,0,0.7);
-	}
+
+}
+.warning{
+	background-color: rgba(255,0,0,0.7);
 }

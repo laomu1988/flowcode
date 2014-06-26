@@ -136,6 +136,21 @@ div[class^=area] .context textarea {
   -moz-box-sizing: border-box;
   -o-box-sizing: border-box;
 }
+.bottom .bottom-left {
+  width: 200px;
+  position: absolute;
+}
+.bottom .messages {
+  margin-left: 200px;
+}
+.bottom .messages table.message {
+  width: 100%;
+  border-spacing: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+.bottom .messages table.message td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
 /***/
 #view {
   overflow: auto;
@@ -152,6 +167,6 @@ div[class^=area] .context textarea {
 .debug-vars tr:hover {
   background-color: rgba(150, 150, 150, 0.7);
 }
-.debug-vars .warning {
+.warning {
   background-color: rgba(255, 0, 0, 0.7);
 }
