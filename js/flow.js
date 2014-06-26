@@ -113,21 +113,39 @@ todoList
         if (this.type === "start" || this.type === "note") {
           data += ',"x":' + this.x + ',"y":' + this.y;
         }
-        var sdata = '';
-        if (this.right) {
-          sdata = this.right[0].getData();
+        var sdata = '',temp='',i=0;
+        if (this.right && this.right.length > 0) {
+          sdata = '';
+          for(i = 0;i<this.right.length;i++){
+            temp = this.right[i].getData();
+            if(temp != ''){
+              sdata =(sdata === ''?'':sdata+',') + temp;
+            }
+          }
           if (sdata !== '') {
             data += ',"right":[' + sdata + ']';
           }
         }
-        if (this.up) {
-          sdata = this.up[0].getData();
+        if (this.up && this.up.length > 0) {
+          sdata = '';
+          for(i = 0;i<this.up.length;i++){
+            temp = this.up[i].getData();
+            if(temp != ''){
+              sdata =(sdata === ''?'':sdata+',') + temp;
+            }
+          }
           if (sdata !== '') {
             data += ',"up":[' + sdata + ']';
           }
         }
-        if (this.down) {
-          sdata = this.down[0].getData();
+        if (this.down && this.down.length > 0) {
+          sdata = '';
+          for(i = 0;i<this.down.length;i++){
+            temp = this.down[i].getData();
+            if(temp != ''){
+              sdata =(sdata === ''?'':sdata+',') + temp;
+            }
+          }
           if (sdata !== '') {
             data += ',"down":[' + sdata + ']';
           }
@@ -182,7 +200,7 @@ todoList
       case "loop":
         inputval = inputval.replace(/并/g, '&&');
         inputval = inputval.replace(/或/g, '||');
-        return "do{\n" + up + "if(" + inputval + "){break;}\n" + down + "\n}while(true);\n";
+        return "do{\n" + up + "if(!(" + inputval + ")){break;}\n" + down + "\n}while(true);\n";
       case "input":
         var inputdatas = inputval.split(",");
         var code = '';
@@ -194,7 +212,7 @@ todoList
         }
         return code;
       case "output":
-        return "print(" + inputval + ");\n";
+        return "printf(" + inputval + ");\n";
       case "note":
         return "";
       default:
@@ -1502,6 +1520,13 @@ todoList
     }
     return code;
   }
+  flow.run = function(inputdata){
+    inputdata = inputdata + " ";
+    var code = flow.getCode();
+    flow.debug.stop();
+    flow.debug.inputdata = inputdata+'';
+    flow.debug.exec(code);
+  }
 
   /*操作记录*/
   var _action = {
@@ -1784,13 +1809,16 @@ todoList
   /**#代码执行部分exec*/
   var exec = {};
   /**代码中的关键字*/
-  exec.keys = "var,if,do,break,continue,for,while,print,true,false";
+  exec.keys = "var,if,do,break,continue,for,while,printf,input,true,false";
   /**获取到的变量列表object类型*/
   exec.vars = {};
   /*取得所有要定义的变量*/
   exec.getVariable = function(code) {
     var vars = code.match(/(\w+)/g);
     var keys = exec.keys.split(",");
+    if(!vars){
+      return '';
+    }
     for (var i = vars.length - 1; i >= 0; i--) {
       for (var j = keys.length - 1; j >= 0; j--) {
         if (keys[j] === vars[i]) {
@@ -1815,12 +1843,40 @@ todoList
     return varDefine;
   }
   /**执行程序中的print函数*/
-  exec.print = function(msg){
+  exec.printf = function(msg){
     flow.log(msg);
   }
   /**执行程序中的输入函数*/
-  exec.input = function(msg){
-    return 1;
+  exec.input = function(){
+    var inputdata =debug.inputdata,i,c;
+    for(i = 0;i<inputdata.length;i++){
+      c = inputdata.charAt(i);
+      if ((c >= "0" && c <= "9") || c === ".") {
+        inputdata = inputdata.substring(i);
+        break;
+      }
+    }
+    var endLength = 0;
+    for(i = 0;i<inputdata.length;i++){
+      c = inputdata.charAt(i);
+      endLength = i;
+      if (!((c >= "0" && c <= "9") || c === ".")) {
+        break;
+      }
+    }
+    var num = parseFloat(inputdata.substring(0,endLength));
+    inputdata = inputdata.substring(endLength);
+    debug.inputdata = inputdata;
+    if(endLength <= 0){
+      flow.log("输入数据不足！");
+    }
+    return num;
+  }
+  exec.getFuncCode = function(){
+    var str = '';
+    str += "var input = flow.exec.input;";
+    str += "var printf = flow.exec.printf;";
+    return str;
   }
   flow.exec = exec;
 
@@ -1829,6 +1885,8 @@ todoList
   var debug = {};
   /**调试时变量列表object*/
   debug.vars = {};
+  /**调试时输入的数据*/
+  debug.inputdata = null;
   /**调试时当前的模块*/
   debug.nowblock = null;
   /**将代码中的变量，替换成调试时变量*/
@@ -1843,9 +1901,10 @@ todoList
     return code;
   }
   /**开始调试*/
-  debug.start = function(){
-    debug.vars = null;
+  debug.start = function(inputdata){
+    debug.stop();
     var code = flow.getCode();
+    debug.inputdata = inputdata?inputdata + ' ':' ';
     debug.vars = exec.vars;
     debug.nowblock = flow.getStartBlock();
     flow.view.changeChoosed(debug.nowblock);
@@ -1856,12 +1915,6 @@ todoList
     var next = null;
     var code = "";
     switch(block.type){
-      case "exec":
-        var code = block.getCode();
-        code = debug.replaceVars(code);
-        debug.exec(code);
-        next = block.getNext();
-        break;
       case "select":
       case "loop":
         code = block.getText();
@@ -1875,8 +1928,13 @@ todoList
         }
         break;
       case "start":
+      case "exec":
       default:
+        code = block.getCode();
+        code = debug.replaceVars(code);
+        debug.exec(code);
         next = block.getNext();
+        break;
     }
     if(next && next.type === "loop"){
       if(next.up.length > 0){
@@ -1902,8 +1960,15 @@ todoList
     flow.view.changeChoosed(debug.nowblock);
     return debug.nowblock;
   }
+  debug.stop = function(){
+    debug.vars = null;
+    debug.inputdata = null;
+    debug.nowblock = null;
+    flow.view.changeChoosed(null);
+  }
   /**执行代码*/
   debug.exec = function(code){
+    code = exec.getFuncCode()+'\n'+code;
     flow.log("exec:"+code);
     return eval(code);
   }

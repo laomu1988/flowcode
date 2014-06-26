@@ -75,12 +75,13 @@
 #代码执行部分exec
   * keys:代码中的关键字
   * vars:获取到的变量列表object类型
-  * print(msg):执行程序中的print函数
-  * input(msg):执行程序中的输入函数
+  * printf(msg):执行程序中的print函数
+  * input():执行程序中的输入函数
 
 #调试debug
   * vars:调试时变量列表object
+  * inputdata:调试时输入的数据
   * nowblock:调试时当前的模块
   * replaceVars(code):将代码中的变量，替换成调试时变量
-  * start():开始调试
+  * start(inputdata):开始调试
   * exec(code):执行代码

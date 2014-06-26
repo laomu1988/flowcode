@@ -136,3 +136,22 @@ div[class^=area] .context textarea {
   -moz-box-sizing: border-box;
   -o-box-sizing: border-box;
 }
+/***/
+#view {
+  overflow: auto;
+}
+.debug-vars {
+  width: 100%;
+  border-spacing: 0;
+  background-color: rgba(60, 60, 60, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+.debug-vars tr td {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+.debug-vars tr:hover {
+  background-color: rgba(150, 150, 150, 0.7);
+}
+.debug-vars .warning {
+  background-color: rgba(255, 0, 0, 0.7);
+}

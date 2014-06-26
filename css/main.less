@@ -7,7 +7,10 @@
 @left-width:200px;
 @right-width:300px;
 
-
+@header-color: rgba(204,204,204,0.5);
+@hover-color: rgba(150,150,150,0.7);
+@context-color: rgba(60,60,60,0.7);
+@border-color: rgba(255,255,255,0.6);
 body,div,p,ul,li,dl,dt,dd{
 	margin:0;
 	padding:0;
@@ -135,4 +138,22 @@ div[class^=area]{
 /***/
 #view{
 	overflow: auto;
+}
+
+.debug-vars{
+	width:100%;
+	border-spacing: 0;
+	background-color: @context-color;
+	border-bottom: 1px solid @border-color;
+	tr{
+		td{
+			border: 1px solid @border-color;
+		}
+		&:hover{
+			background-color: @hover-color;
+		};
+	}
+	.warning{
+		background-color: rgba(255,0,0,0.7);
+	}
 }

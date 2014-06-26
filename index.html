@@ -47,8 +47,9 @@
     <input type="button" id="tool_redo" value="重做">
     <input type="button" id="tool_delete" value="删除选中">
     <input type="button" id="tool_getCode" value="输出代码">
+    <input type="button" id="tool_run" value="执行">
     <input type="button" id="tool_debug" value="开始调试">
-    <input type="button" id="tool_debug_stop" value="开始调试">
+    <input type="button" id="tool_debug_stop" value="结束调试">
 </div>
 <div class="main">
     <div class="main-left">
@@ -73,13 +74,22 @@
         <div class="area-input">
             <header>输入数据</header>
             <div class="context">
-                <textarea id="input"></textarea>
+                <textarea id="input">123</textarea>
             </div>
         </div>
         <div class="area-output">
-            <header>输出代码</header>
+            <header>输出数据</header>
             <div class="context">
                 <textarea id="output"></textarea>
+            </div>
+        </div>
+        <div class="area-debug">
+            <header>调试变量</header>
+            <div class="context">
+                <table class="debug-vars">
+                    <tr><td class="varname">a</td><td class="varvalue">0</td></tr>
+                    <tr><td class="varname">a</td><td class="varvalue">0</td></tr>
+                </table>
             </div>
         </div>
     </div>
@@ -90,13 +100,15 @@
 <script>
 $(document).ready(function() {
     var flow = window.flow;
-    var data = 
-    [
-        [{"type":"start","x":50,"y":0},{"type":"exec","text":"sum=0,i=1"},{"type":"loop","text":"i<=100","down":[{"type":"exec","text":"sum+=i"}]},{"type":"output","text":"sum"},{"type":"end"}],
-        [{"type":"start","x":300,"y":0},{"type":"exec","text":"sum=0,i=1"},{"type":"loop","text":"i<=100","down":[{"type":"exec","text":"sum+=i"}]},{"type":"output","text":"sum"},{"type":"end"}]
-    ]
-    ;
+    var data = [[{"type":"start","x":110,"y":68},{"type":"input","text":"t"},{"type":"output","text":"t"},{"type":"end"}]];
+    //[[{"type":"start","x":50,"y":0},{"type":"exec","text":"sum=0,i=1"},{"type":"loop","text":"i<=100","down":[{"type":"exec","text":"sum+=i"},{"type":"exec","text":"i+=1;"}]},{"type":"output","text":"sum"},{"type":"end"}]];
     flow.init("view",data);
+    
+    flow.exec.printf = function(msg){
+        var out = $("#output");
+        out.val(out.val()+msg);
+
+    }    
 
     $("#tool_redo").click(function(){
         flow.history.redo();
@@ -110,13 +122,42 @@ $(document).ready(function() {
     $("#tool_getCode").click(function(){
         console.log(flow.getCode());
     });
+    $("#tool_run").click(function(){
+        var out = $("#output");
+        out.val("");
+        flow.run($("#input").val());
+    });
     var isDebug = false;
+    var vars = {};
     $("#tool_debug").click(function(){
         var block = null;
+        var debugvars = $(".debug-vars");
         if(isDebug){
+            debugvars.find(".warning").removeClass("warning");
             block = flow.debug.next();
+            for(var i in flow.debug.vars){
+                if(vars[i] !== flow.debug.vars[i]){
+                    vars[i] = flow.debug.vars[i];
+                    var b = debugvars.find("[varname="+i+"]");
+                    if(b.length > 0){
+                        b.find(".varvalue").html(vars[i]);
+                        b.addClass("warning");
+                    }else{
+                        b = $('<tr varname="'+i+'" class="warning"><td class="varname">'+i+'</td><td class="varvalue">'+vars[i]+'</td></tr>');
+                        b.appendTo(debugvars);
+                    }
+                }
+            }
         }else{
-            block = flow.debug.start();
+            block = flow.debug.start($("#input").val());
+            vars = {};
+            var str = "";
+            $("#output").val("");
+            for(var i in flow.debug.vars){
+                vars[i] = flow.debug.vars[i];
+                str += '<tr varname="'+i+'"><td class="varname">'+i+'</td><td class="varvalue">'+vars[i]+'</td></tr>';
+            }
+            debugvars.html(str);
         }
         if(block){
             $(this).val("继续调试");
