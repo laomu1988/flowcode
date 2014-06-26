@@ -597,6 +597,8 @@ todoList
               } else if (this.type === "output") {
                 str += '<span>输出</span>';
                 str += '<input type="text" size=5 id="input' + this.blockid + '" value="' + this.text + '"/>';
+              }else if(this.type==="loop" || this.type === "select"){
+                str += '<span class="triangle-left"></span><input type="text" size=8 id="input' + this.blockid + '" value="' + this.text + '"/><span class="triangle-right"></span>';
               } else {
                 str += '<input type="text" size=8 id="input' + this.blockid + '" value="' + this.text + '"/>';
               }

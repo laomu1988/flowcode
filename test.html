@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml2/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<title>纯CSS多级透明菜单</title>
+<style>
+#nav {
+PADDING-RIGHT: 0px; PADDING-LEFT: 0px; Z-INDEX: 100; BACKGROUND: #999999 ; PADDING-BOTTOM: 0px; MARGIN: 0px; FONT: 10px arial, verdana, sans-serif; PADDING-TOP: 0px; LIST-STYLE-TYPE: none; POSITION: relative
+}
+#nav UL {
+PADDING-RIGHT: 0px; PADDING-LEFT: 0px; Z-INDEX: 100; BACKGROUND: #999999; PADDING-BOTTOM: 0px; MARGIN: 0px; FONT: 10px arial, verdana, sans-serif; PADDING-TOP: 0px; LIST-STYLE-TYPE: none; POSITION: relative
+}
+#nav {
+PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: #528e34; PADDING-BOTTOM: 0px; WIDTH: 740px; PADDING-TOP: 0px; HEIGHT: 23px
+}
+#nav TABLE {
+BORDER-COLLAPSE: collapse
+}
+#nav LI {
+FLOAT: left
+}
+#nav LI LI {
+FLOAT: none
+}
+#nav LI A LI {
+FLOAT: left
+}
+#nav LI A {
+PADDING-RIGHT: 20px; DISPLAY: block; PADDING-LEFT: 10px; FONT-WEIGHT: bold; FLOAT: left; PADDING-BOTTOM: 0px; BORDER-LEFT: #528e34 1px solid; COLOR: #fff; LINE-HEIGHT: 22px; PADDING-TOP: 0px; WHITE-SPACE: nowrap; HEIGHT: 23px; TEXT-DECORATION: none
+}
+#nav LI LI A {
+FLOAT: none; LINE-HEIGHT: 20px; HEIGHT: 21px
+}
+#nav LI:hover {
+Z-INDEX: 100; POSITION: relative
+}
+#nav A:hover {
+Z-INDEX: 100; BACKGROUND: #779e25; BORDER-LEFT: #779e25 1px solid; COLOR: #fff; POSITION: relative
+}
+#nav LI:hover > A {
+BACKGROUND: #779e25; BORDER-LEFT: #779e25 1px solid; COLOR: #fff
+}
+#nav :hover UL {
+Z-INDEX: 300; LEFT: 0px; BORDER-LEFT: #779e25 1px solid; TOP: 23px
+}
+#nav A:hover UL {
+LEFT: -1px
+}
+#nav UL {
+LEFT: -9999px; POSITION: absolute; TOP: -9999px
+}
+#nav LI:hover LI:hover > UL {
+LEFT: 0px; MARGIN-LEFT: 100%; TOP: 0px
+}
+#nav LI:hover > UL UL {
+LEFT: -9999px; WIDTH: auto; POSITION: absolute; TOP: -9999px
+}
+#nav LI:hover LI:hover > A {
+BACKGROUND: #779e25; BORDER-LEFT: #779e25 1px solid; COLOR: #fff
+}
+#nav LI A:hover UL LI A:hover {
+BACKGROUND: #779e25
+}
+#nav A:hover A:hover UL {
+LEFT: 100%; TOP: 0px
+}
+#nav A:hover A:hover A:hover UL {
+LEFT: 100%; TOP: 0px
+}
+#nav A:hover A:hover A:hover A:hover UL {
+LEFT: 100%; TOP: 0px
+}
+#nav A:hover A:hover A:hover A:hover A:hover UL {
+LEFT: 100%; TOP: 0px
+}
+#nav A:hover UL UL {
+LEFT: -9999px; POSITION: absolute; TOP: -9999px
+}
+#nav A:hover A:hover UL UL {
+LEFT: -9999px; POSITION: absolute; TOP: -9999px
+}
+#nav A:hover A:hover A:hover UL UL {
+LEFT: -9999px; POSITION: absolute; TOP: -9999px
+}
+#nav A:hover A:hover A:hover A:hover UL UL {
+LEFT: -9999px; POSITION: absolute; TOP: -9999px
+}
+</style>
+</head>
+<body>
+
+<ul id="nav">
+<li><a href="#">首页</a></li>
+<li><a href="#"><!--[if gte IE 7]><!-->菜单一</a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+<ul>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+<li><a href="#">菜单二&raquo;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+<ul>
+<li><a href="#">百度菜单 &raquo;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]--><ul>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+<li><a href="#">百度菜单 &raquo;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]--><ul>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+<li><a href="#">百度菜单 &raquo;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]--><ul>
+<li><a href="#">百度菜单 &raquo;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]--><ul>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+<li><a href="#">百度菜单 &raquo;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]--><ul>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单 &raquo;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]--><ul>
+<li><a href="#">百度菜单 &raquo;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]--><ul>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单 &raquo;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]--><ul>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+<li><a href="#">百度菜单 &raquo;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]--><ul>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+<li><a href="#">菜单三&raquo;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+<ul>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+<li><a href="#">菜单四&raquo;<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+<ul>
+<li><a href="#">百度菜单</a></li>
+<li><a href="#">百度菜单</a></li>
+</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+<li><a href="#">菜单五</a></li>
+</ul>
+</body>
+</html>

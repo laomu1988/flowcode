@@ -107,6 +107,9 @@ CSS Sprit实践
   border: 0;
   text-align: center;
 }
+.block input[value=""] {
+  background-color: rgba(255, 255, 255, 0.7);
+}
 .block input:focus {
   background-color: rgba(255, 255, 255, 0.7);
 }
@@ -263,6 +266,22 @@ CSS Sprit实践
 .start,
 .end {
   border-radius: 10px;
+}
+.triangle-left {
+  border-color: rgba(255, 255, 255, 0) #ff0000 rgba(255, 255, 255, 0) rgba(255, 255, 255, 0);
+  border-style: solid;
+  border-width: 10px;
+  width: 0;
+  height: 0;
+  display: inline-block;
+}
+.triangle-right {
+  border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) #ff0000;
+  border-style: solid;
+  border-width: 10px;
+  width: 0;
+  height: 0;
+  display: inline-block;
 }
 /*矩形的四个角落**/
 .rect-rightup,

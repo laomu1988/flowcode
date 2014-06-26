@@ -1,15 +1,57 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html>
+<!DOCTYPE html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width" />
 <title>流程图在线编程</title>
+<link type="text/css" rel="stylesheet" href="css/main.css" />
 <link type="text/css" rel="stylesheet" href="css/flowcode.css" />
 <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
 <script type="text/javascript" src="js/flow.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 <body>
-<div id="EditorArea" class="container">
-<div id="ToolsBar" class="w2" style="background-color:#AAA;z-index:-100;">
+<div class="menu">
+    <ul>
+        <li><a href="#">菜单</a></li>
+        <li><a href="#">文件</a>
+            <ul>
+                <li><a href="#">新建</a></li>
+                <li><a href="#">保存</a></li>
+            </ul>
+        </li>
+        <li><a href="#">编辑</a>
+            <ul>
+                <li><a href="#">新建</a></li>
+                <li><a href="#">保存</a></li>
+            </ul>
+        </li>
+        <li><a href="#">执行</a>
+            <ul>
+                <li><a href="#">新建</a></li>
+                <li><a href="#">保存</a></li>
+            </ul>
+        </li>
+        <li><a href="#">习题</a></li>
+        <li><a href="#">帮助</a>
+            <ul>
+                <li><a href="#">编程向导</a></li>
+                <li><a href="#">错误报告</a></li>
+                <li><a href="#">关于</a></li>
+            </ul>
+        </li>
+    <ul>
+</div>
+<div class="toolbar">
+    <input type="button" id="tool_undo" value="撤销">
+    <input type="button" id="tool_redo" value="重做">
+    <input type="button" id="tool_delete" value="删除选中">
+    <input type="button" id="tool_getCode" value="输出代码">
+    <input type="button" id="tool_debug" value="开始调试">
+    <input type="button" id="tool_debug_stop" value="开始调试">
+</div>
+<div class="main">
+    <div class="main-left">
 <div class="block ori" blockType="start">开始</div>
 <div class="block ori" blockType="input">输入</div>
 <div class="block ori" blockType="output">输出</div>
@@ -17,21 +59,34 @@
 <div class="block ori" blockType="select">选择</div>
 <div class="block ori" blockType="loop">循环</div>
 <div class="block ori" blockType="note">注释</div>
-</div>
-<div class="w9" style="height:600px;z-index:-100;overflow:auto;background:#666;">
-    <div class="toolbar" style="background:#444">
-        <input type="button" id="tool_undo" value="撤销">
-        <input type="button" id="tool_redo" value="重做">
-        <input type="button" id="tool_delete" value="删除选中">
-        <input type="button" id="tool_getCode" value="输出代码">
-        <input type="button" id="tool_debug" value="开始调试">
-        <input type="button" id="tool_debug_stop" value="开始调试">
     </div>
-<div id="view" style="position:relative"></div>
+    <div id="view" class="main-middle">
+    </div>
+    <div class="main-right">
+        <div class="vline"></div>
+        <div class="area-code">
+            <header>输出代码</header>
+            <div class="context">
+                <textarea id="code"></textarea>
+            </div>
+        </div>
+        <div class="area-input">
+            <header>输入数据</header>
+            <div class="context">
+                <textarea id="input"></textarea>
+            </div>
+        </div>
+        <div class="area-output">
+            <header>输出代码</header>
+            <div class="context">
+                <textarea id="output"></textarea>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="w2">
+<div class="bottom">
 </div>
-</div>
+
 <script>
 $(document).ready(function() {
     var flow = window.flow;

@@ -1,0 +1,138 @@
+body,
+div,
+p,
+ul,
+li,
+dl,
+dt,
+dd {
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #282828;
+  color: white;
+}
+.border {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+.box-sizing {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+.menu,
+.toolbar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  font-size: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+.menu {
+  top: 0px;
+  height: 40px;
+  z-index: 100;
+  background-color: rgba(200, 200, 200, 0.7);
+}
+.menu li {
+  list-style: none;
+  background-color: rgba(200, 200, 200, 0.7);
+}
+.menu a {
+  text-decoration: none;
+  color: black;
+}
+.menu a:hover {
+  background-color: rgba(150, 150, 150, 0.7);
+}
+.menu > ul > li {
+  float: left;
+  display: block;
+  margin: 3px;
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+.menu > ul > li li {
+  display: none;
+  border: 1px solid rgba(100, 100, 100, 0.6);
+}
+.menu > ul li:hover li {
+  display: block;
+}
+.toolbar {
+  z-index: 99;
+  height: 40px;
+  top: 40px;
+}
+.main,
+.main-left,
+.main-right {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  height: 100%;
+}
+.main {
+  width: 100%;
+  padding-top: 80px;
+  margin-bottom: -40px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+.main .main-left {
+  position: absolute;
+  left: 0;
+  width: 200px;
+}
+.main .main-middle {
+  position: absolute;
+  left: 200px;
+  right: 300px;
+}
+.main .main-right {
+  padding-left: 3px;
+  position: absolute;
+  right: 0;
+  width: 300px;
+  overflow: hidden;
+}
+.main .main-right .vline {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background-color: #aaa;
+  cursor: e-resize;
+}
+div[class^=area] header {
+  background-color: rgba(204, 204, 204, 0.5);
+}
+div[class^=area] header:hover {
+  background-color: rgba(100, 100, 100, 0.5);
+}
+div[class^=area] .context {
+  min-height: 50px;
+}
+div[class^=area] .context textarea {
+  width: 100%;
+  resize: none;
+}
+.bottom {
+  width: 100%;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  overflow: hidden;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}

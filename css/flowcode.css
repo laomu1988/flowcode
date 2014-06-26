@@ -107,6 +107,9 @@ CSS Sprit实践
   border: 0;
   text-align: center;
 }
+.block input[value=""] {
+  background-color: rgba(255, 255, 255, 0.7);
+}
 .block input:focus {
   background-color: rgba(255, 255, 255, 0.7);
 }
