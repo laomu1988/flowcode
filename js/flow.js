@@ -376,7 +376,7 @@ todoList
     },
     /**当前元素插入block元素前*/
     insertBefore: function(block) {
-      flow.log("将节点%o插入到节点%o前", this, block);
+      //flow.log("将节点%o插入到节点%o前", this, block);
       if (!block) {
         return this;
       }
@@ -402,7 +402,7 @@ todoList
     },
     /**当前元素插入block元素后*/
     insertAfter: function(block) {
-      flow.log("将节点%o插入到节点%o后", this, block);
+      //flow.log("将节点%o插入到节点%o后", this, block);
       if (!block) {
         return this;
       }
@@ -666,9 +666,9 @@ todoList
           this.divObject.droppable({
             hoverClass: 'hovered',
             drop: function(e, ui) {
-              flow.log("drop and ui");
+              //flow.log("drop and ui");
               flow.view.changeLatestDrop("block");
-              flow.log(e);
+              //flow.log(e);
               flow.view.dropBlockTo(ui.draggable, temp);
               e.stopPropagation();
               e.preventDefault();
@@ -960,23 +960,17 @@ todoList
 
   /**#flow流程图操作函数*/
   var flow = {
-    /**输出代码*/
-    log: function() {
-      if (!_setting.debug) {
-        return false;
-      }
-      try {
-        if (arguments.length === 1) {
-          console.log(arguments[0]);
-        } else if (arguments.length > 0) {
-          console.log(arguments);
-          /*!需要完善*/
-        }
-        if (_setting.trace) {
-          console.trace();
-        }
-      } catch(err) {}
+    /**输出消息
+    type:类型
+      * 操作
+      * 错误
+    message:消息
+    obj:对象
+    */
+    log: function(type,message,obj) {
+      flow.fire("message",{'type':type,'message':message,'obj':obj});
     },
+
     /**初始化编辑区域
         @param:viewId:编辑区域id
         @param:data:初始数据
@@ -991,7 +985,6 @@ todoList
       });
       $("#" + viewId).parent().droppable({
         drop: function(e, ui) {
-          flow.log("drop to view");
           flow.view.changeLatestDrop("view");
         }
       });
@@ -1040,7 +1033,6 @@ todoList
         obj.delete();
         return;
       }
-      flow.log("空删除！%o", obj);
     },
     /**根据属性增加模块
     * key:节点类型或者模块数据[必须]
@@ -1183,7 +1175,6 @@ todoList
   @param data:数据{a:0,b:1}
   */
   flow.fire = function(type, data) {
-    flow.log("fire event: " + type);
     var arrayEvent = flow._listeners[type];
     if (arrayEvent instanceof Array) {
       for (var i = 0,
@@ -1244,7 +1235,6 @@ todoList
       var vy_ = flow.view._needMoveY;
       flow.view._needMoveX = 0;
       flow.view._needMoveY = 0;
-      flow.log("更新视图:" + vx_ + "  " + vy_);
       var root = _data,
       i, j;
       if (root.length <= 0) {
@@ -1334,20 +1324,16 @@ todoList
     },
     /*block文字发生改变*/
     changeTextEvent: function(block, text) {
-      /*flow.log("changeTextEvent:%o :%s",block,text);*/
       _action.changeText(block.getPath(), block.text, text);
       block.text = text;
     },
     /*当停止拖动元素*/
     onStopDrag: function(e, n) {
       var toObject = $(e.toElement);
-      flow.log("stopdrag:" + flow.view._latestDrop);
-      flow.log(e);
       var target = $(e.target);
       var type = target.attr("blocktype");
       var block;
       if (flow.view._latestDrop === "view") {
-        flow.log("latestDrop: view");
         if (type !== "start" && type !== "note") {
           return true;
         }
@@ -1439,7 +1425,7 @@ todoList
         if (!confirm("删除该节点会将整条连线全部删除，确认删除整条连线？")) {
           return;
         }
-        flow.log("删除整条连线！");
+        flow.log('message',"删除掉一条连线！");
         var path = block.getPath();
         path = path.substring(0, path.indexOf("."));
         block = flow.view.getBlockByPath(path);
@@ -1469,9 +1455,10 @@ todoList
       } else {
         block = flow.getBlockById(obj.attr("blockid"));
       }
-      flow.log("选中元素");
+      /*flow.log("选中元素");
       flow.log(obj);
       flow.log(block);
+      */
       obj.addClass("choosed");
       if (block) {
         var input = block.getInput();
@@ -1480,7 +1467,6 @@ todoList
         }
         var path = block.getPath();
         var start = flow.view.getBlockByPath(path.substring(0, path.indexOf(".")) + ".0");
-        flow.log(start);
         if (start.type === "start") {
           $(".selected").removeClass("selected");
           start.divObject.addClass("selected");
@@ -1558,7 +1544,7 @@ todoList
       }
       flow.fire(name);
       _action.flag += 1;
-      flow.log("add history: " + name + " %o", key);
+      flow.log("message",name,key);
     },
     /*初始化图像*/
     init: function(str) {
@@ -1844,7 +1830,7 @@ todoList
   }
   /**执行程序中的print函数*/
   exec.printf = function(msg){
-    flow.log(msg);
+    flow.log('输出',msg);
   }
   /**执行程序中的输入函数*/
   exec.input = function(){
@@ -1868,7 +1854,7 @@ todoList
     inputdata = inputdata.substring(endLength);
     debug.inputdata = inputdata;
     if(endLength <= 0){
-      flow.log("输入数据不足！");
+      flow.log("error","输入数据不足！");
     }
     return num;
   }
@@ -1969,10 +1955,11 @@ todoList
   /**执行代码*/
   debug.exec = function(code){
     code = exec.getFuncCode()+'\n'+code;
-    flow.log("exec:"+code);
+    //flow.log("exec:"+code);
     return eval(code);
   }
 
-
   flow.debug = debug;
+
+
 })(window, jQuery);

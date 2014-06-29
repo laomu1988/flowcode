@@ -2,7 +2,7 @@
 @menu-color:rgba(200,200,200,0.7);
 @menu-height:40px;
 @tool-height:40px;
-@bottom-height:40px;
+@bottom-height:24px;
 
 @left-width:200px;
 @right-width:300px;
@@ -131,21 +131,20 @@ div[class^=area]{
 	width:100%;
 	height: @bottom-height;
 	.border;
-	overflow: hidden;
+	overflow: auto;
 	.box-sizing;
-	.bottom-left{
-		width: @left-width;
-		position: absolute;
+	.hline{
+		cursor: n-resize;
+		height: 3px;
+		background-color: #aaa;
 	}
-	.messages{
-		margin-left: @left-width;
-		table.message{
-			width: 100%;
-			border-spacing: 0;
+
+	table.message{
+		width: 100%;
+		border-spacing: 0;
+		border-bottom: 1px solid @border-color;
+		td{
 			border-bottom: 1px solid @border-color;
-			td{
-				border-bottom: 1px solid @border-color;
-			}
 		}
 	}
 }

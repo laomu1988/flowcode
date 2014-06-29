@@ -16,6 +16,7 @@
       OnResize();
     });
 
+    
     //通过拖动右侧.vline修改右侧宽度
     var isMoving = false;
     var startX = 0;
@@ -47,6 +48,34 @@
       }
       $(".main-middle").css({"right":rightWidth});
       $(".main-right").width(rightWidth);
+    });
+
+
+    //通过拖动底部.hline修改底部高度
+    var isMovingH = false;
+    var startY = 0;
+    var bottomHeight = 0;
+    $(".bottom .hline").bind("mousedown",function(e){
+      isMovingH = true;
+      startY = e.pageY;
+      bottomHeight = $(".bottom").height();
+      console.log(e);
+    });
+    $("body").bind("mousemove mouseup",function(e){
+      if(!isMovingH){
+        return;
+      }
+      if(e.type === "mouseup"){
+        isMovingH = false;
+        return;
+      }
+      var newY = e.pageY;
+      bottomHeight = bottomHeight + startY - newY;
+      startY = newY;
+      bottomHeight = bottomHeight < 24 ?24:(bottomHeight > 200?200:bottomHeight);
+      $(".bottom").css({"height":bottomHeight});
+      $(".main").css("margin-bottom",-bottomHeight);
+      OnResize();
     });
 
   });

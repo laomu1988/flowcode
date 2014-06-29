@@ -22,14 +22,16 @@
         </li>
         <li><a href="#">编辑</a>
             <ul>
-                <li><a href="#">新建</a></li>
-                <li><a href="#">保存</a></li>
+                <li><a href="#">撤销</a></li>
+                <li><a href="#">重做</a></li>
             </ul>
         </li>
         <li><a href="#">执行</a>
             <ul>
-                <li><a href="#">新建</a></li>
-                <li><a href="#">保存</a></li>
+                <li><a href="#">执行</a></li>
+                <li><a href="#">开始调试</a></li>
+                <li><a href="#">下一步</a></li>
+                <li><a href="#">结束调试</a></li>
             </ul>
         </li>
         <li><a href="#">习题</a></li>
@@ -93,17 +95,12 @@
     </div>
 </div>
 <div class="bottom">
-    <div class="bottom-left">提示消息:</div>
-    <div class="messages">
-        <table class="message">
+    <div class="hline"></div>
+    <table class="message">
             <tbody>
                 <tr><td>事件类型</td><td>内容</td><td>时间</td></tr>
-                <tr><td>事件类型</td><td>内容</td><td>时间</td></tr>
-                <tr><td>事件类型</td><td>内容</td><td>时间</td></tr>
-                <tr><td>事件类型</td><td>内容</td><td>时间</td></tr>
             </tbody>
-        </table>
-    </div>
+    </table>
 </div>
 
 <script>
@@ -181,6 +178,15 @@ $(document).ready(function() {
         isDebug = false;
         $("#tool_debug").val("开始调试");
         flow.changeChoosed(null);
+    });
+
+    flow.bind("message",function(type,data){
+        var list = $(".bottom .message tbody tr");
+        var newMessage = $("<tr><td>"+data.type+"</td><td>"+data.message+"</td><td>"+(new Date())+"</td></tr>");
+        if(list.length > 10){
+            $(list[list.length - 1]).remove();
+        }
+        newMessage.insertBefore($(list[0]));
     });
 });
 </script>
